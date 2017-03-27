@@ -1,0 +1,60 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE}
+#Setup
+library(leaflet)
+```
+
+## November 11, 2016
+
+### These top 4 states flipped their inclanation from Democrat to Republican in 2016
+
+**Pennsylvania**
+
+* 20 electoral votes
+* D - 2,844,705
+* R - 2,912,941
+
+**Michigan**
+
+* 16 electoral votes
+* 2,267,373
+* 2,279,210
+
+**Ohio**
+
+* 18 electoral votes
+* 2,317,001
+* 2,771,984
+
+**Wisconsin**
+
+* 10 electoral votes
+* 1,382,210
+* 1,409,467
+
+### Building data
+```{r, comment=""}
+df <- data.frame(lat = c(40.786826,43.468506,40.720526,43.113987),
+                 lng = c(-77.881001,-84.818061,-82.792258,-89.413982))
+electoral_size <- c(20,16,18,10)
+#this is just for graphic compability
+tipping_population <- c(2912941-2844705,2279210-2267373,2771984-2317001,1409467-1382210)
+#this is just for graphic compability
+tipping_weight <- log(tipping_population)-9
+
+map <- df %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers() %>% 
+  addCircleMarkers(weight = tipping_weight, radius = electoral_size)
+map
+```
+
+
